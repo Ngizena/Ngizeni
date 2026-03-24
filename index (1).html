@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FX Course – Technically Future</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#05080f;--surface:#0b1018;--card:#0f1622;--border:#1c2840;
+  --gold:#f5a623;--gold2:#ffc24a;--green:#00d68f;--red:#ff4d6a;
+  --text:#dde4f0;--muted:#5a6a84;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:64px;background:rgba(5,8,15,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:3px;color:var(--gold)}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.82rem;font-weight:500;letter-spacing:.5px;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-btn{background:var(--gold);color:#000;border:none;cursor:pointer;padding:10px 26px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.82rem;letter-spacing:.5px;text-transform:uppercase;transition:transform .15s,box-shadow .15s;border-radius:2px}
+.nav-btn:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(245,166,35,.3)}
+/* TICKER */
+.ticker-wrap{position:fixed;top:64px;left:0;right:0;z-index:199;background:rgba(5,8,15,.97);border-bottom:1px solid rgba(245,166,35,.15);padding:6px 0;overflow:hidden;font-family:'Space Mono',monospace}
+.ticker-scroll{display:flex;gap:48px;animation:scroll 24s linear infinite;white-space:nowrap}
+.tick{display:inline-flex;gap:8px;align-items:center;font-size:.7rem}
+.tick-pair{color:var(--muted)}.tick-price{color:var(--text)}.tick-up{color:var(--green)}.tick-dn{color:var(--red)}
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:140px 48px 80px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 55% 55% at 65% 35%,rgba(245,166,35,.07) 0%,transparent 65%),radial-gradient(ellipse 35% 45% at 15% 75%,rgba(0,214,143,.04) 0%,transparent 55%);pointer-events:none}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(28,40,64,.35) 1px,transparent 1px),linear-gradient(90deg,rgba(28,40,64,.35) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(ellipse 90% 90% at 50% 50%,black 20%,transparent 100%)}
+.hero-content{position:relative;z-index:2;max-width:680px}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(245,166,35,.1);border:1px solid rgba(245,166,35,.25);color:var(--gold);padding:5px 14px;font-size:.7rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:28px;border-radius:2px}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 1.4s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.5)}}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,10vw,8.5rem);line-height:.9;letter-spacing:2px}
+.hero h1 em{font-style:normal;-webkit-text-stroke:2px var(--gold);color:transparent}
+.hero-desc{margin-top:24px;font-size:1.05rem;color:var(--muted);line-height:1.75;max-width:480px}
+.hero-ctas{margin-top:28px;display:flex;gap:14px;flex-wrap:wrap}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;cursor:pointer;padding:15px 38px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.5px;text-transform:uppercase;border-radius:2px;transition:transform .2s,box-shadow .2s}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(245,166,35,.35)}
+.btn-outline{background:transparent;color:var(--text);cursor:pointer;padding:15px 38px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.9rem;letter-spacing:.5px;text-transform:uppercase;border-radius:2px;border:1px solid var(--border);transition:border-color .2s,color .2s}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+.split-badge{display:inline-flex;align-items:center;gap:10px;margin-top:32px;background:rgba(15,22,34,0.9);border:1px solid rgba(245,166,35,.3);padding:12px 20px;border-radius:4px}
+.split-badge .amount{font-family:'Bebas Neue';font-size:2rem;color:var(--gold);line-height:1}
+.split-badge .sep{color:var(--muted);font-size:1.2rem}
+.split-badge .note{font-size:.75rem;color:var(--muted);line-height:1.4}
+.split-badge .note strong{color:var(--text);display:block}
+.stats-row{margin-top:52px;display:flex;gap:48px;flex-wrap:wrap}
+.stat-n{font-family:'Bebas Neue';font-size:2.6rem;color:var(--gold);line-height:1}
+.stat-l{font-size:.72rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:4px}
+/* SECTIONS */
+section{padding:96px 48px}
+.sec-tag{font-size:.68rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.sec-tag::before{content:'';width:28px;height:1px;background:var(--gold);display:block}
+.sec-title{font-family:'Bebas Neue';font-size:clamp(2.4rem,5vw,4rem);line-height:1;letter-spacing:1px}
+/* FEATURES */
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;margin-top:56px;border:1px solid var(--border)}
+.feat{background:var(--card);padding:36px 28px;border:1px solid var(--border);transition:background .25s;position:relative;overflow:hidden}
+.feat::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);opacity:0;transition:opacity .25s}
+.feat:hover{background:#111c2a}.feat:hover::after{opacity:1}
+.feat-icon{font-size:1.5rem;margin-bottom:18px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.18)}
+.feat h3{font-size:1rem;font-weight:600;margin-bottom:10px}
+.feat p{font-size:.875rem;color:var(--muted);line-height:1.65}
+/* PRICE */
+.price-section{background:var(--surface)}
+.price-wrapper{margin-top:56px;max-width:740px;margin-left:auto;margin-right:auto}
+.split-card{background:var(--card);border:1px solid rgba(245,166,35,.35);border-radius:4px;overflow:hidden;box-shadow:0 0 60px rgba(245,166,35,.06)}
+.split-card-header{background:linear-gradient(135deg,rgba(245,166,35,.12),rgba(255,194,74,.06));border-bottom:1px solid rgba(245,166,35,.2);padding:32px 40px;display:flex;align-items:center;justify-content:space-between}
+.split-card-header h2{font-family:'Bebas Neue';font-size:2.2rem;letter-spacing:2px}
+.hot-tag{background:var(--green);color:#000;font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:4px 10px}
+.payments-visual{padding:40px;display:flex;flex-direction:column;gap:0}
+.payment-step{display:flex;align-items:stretch;gap:0}
+.step-left{display:flex;flex-direction:column;align-items:center;min-width:48px}
+.step-circle{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue';font-size:1.1rem;flex-shrink:0}
+.step-circle.active{background:var(--gold);color:#000}
+.step-circle.second{background:rgba(245,166,35,.15);border:1px solid rgba(245,166,35,.4);color:var(--gold)}
+.step-line{flex:1;width:2px;background:linear-gradient(var(--gold),rgba(245,166,35,.2));margin:4px 0}
+.step-content{flex:1;padding-left:20px;padding-bottom:36px}
+.step-label{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:6px}
+.step-amount{font-family:'Bebas Neue';font-size:3rem;color:var(--gold);line-height:1}
+.step-amount span{font-family:'DM Sans';font-size:.9rem;color:var(--muted);font-weight:400;margin-left:4px}
+.step-note{font-size:.82rem;color:var(--muted);margin-top:8px;line-height:1.5}
+.step-note strong{color:var(--text)}
+.step-tag{display:inline-block;margin-top:10px;background:rgba(0,214,143,.1);border:1px solid rgba(0,214,143,.25);color:var(--green);font-size:.7rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border-radius:2px}
+.split-total{border-top:1px solid var(--border);padding:24px 40px;display:flex;align-items:center;justify-content:space-between;background:rgba(245,166,35,.04)}
+.total-label{font-size:.82rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px}
+.total-amount{font-family:'Bebas Neue';font-size:2rem;color:var(--text)}
+.total-amount span{font-size:.85rem;color:var(--muted);font-family:'DM Sans';font-weight:400}
+.split-cta{padding:24px 40px;border-top:1px solid var(--border)}
+.split-cta .btn-gold{width:100%;text-align:center;display:block;padding:18px;font-size:1rem}
+.included-list{margin-top:24px;display:flex;flex-direction:column;gap:10px;padding:0 40px 32px}
+.inc-item{display:flex;align-items:center;gap:12px;font-size:.88rem;color:var(--muted)}
+.inc-item::before{content:'✓';color:var(--green);font-weight:700;font-size:.9rem;flex-shrink:0}
+/* TESTIMONIALS */
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:52px}
+.testi{background:var(--card);border:1px solid var(--border);padding:28px;position:relative}
+.testi::before{content:'"';font-family:'Bebas Neue';font-size:5rem;color:rgba(245,166,35,.08);position:absolute;top:6px;right:16px;line-height:1}
+.stars{color:var(--gold);font-size:.8rem;letter-spacing:2px;margin-bottom:14px}
+.testi-text{font-size:.875rem;color:var(--muted);line-height:1.7;margin-bottom:20px}
+.testi-author{display:flex;align-items:center;gap:10px}
+.avi{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--green));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;color:#000}
+.avi-name{font-weight:600;font-size:.875rem}
+.avi-meta{font-size:.75rem;color:var(--muted);margin-top:2px}
+/* CTA */
+.cta-section{text-align:center;padding:100px 48px;background:linear-gradient(135deg,rgba(245,166,35,.06),rgba(0,214,143,.03));border-top:1px solid var(--border)}
+.cta-section .sec-title{margin-top:12px;margin-bottom:20px}
+.cta-section p{color:var(--muted);max-width:460px;margin:0 auto 36px;line-height:1.75}
+/* FOOTER */
+footer{padding:40px 48px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.foot-logo{font-family:'Bebas Neue';font-size:1.3rem;letter-spacing:3px;color:var(--gold)}
+.foot-note{font-size:.75rem;color:var(--muted);margin-top:4px}
+.foot-links{display:flex;gap:24px;flex-wrap:wrap}
+.foot-links a{color:var(--muted);text-decoration:none;font-size:.8rem;transition:color .2s}
+.foot-links a:hover{color:var(--gold)}
+@media(max-width:640px){nav{padding:0 20px}.nav-links{display:none}section,footer{padding:64px 20px}.hero{padding:130px 20px 60px}.payments-visual,.split-card-header,.split-total,.split-cta,.included-list{padding-left:20px;padding-right:20px}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Technically Future</div>
+  <ul class="nav-links">
+    <li><a href="#course">Course</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#results">Results</a></li>
+  </ul>
+  <button class="nav-btn" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Enroll Now</button>
+</nav>
+
+<div class="ticker-wrap"><div class="ticker-scroll" id="ticker"></div></div>
+
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag"><span class="live-dot"></span>Enrolment Open</div>
+    <h1>FX<br><em>COURSE</em></h1>
+    <p class="hero-desc">Learn to trade forex from scratch. Real signals, real mentorship, real results — from <strong style="color:var(--text)">Technically Future</strong>.</p>
+    <div class="split-badge">
+      <div><div class="amount">$36</div></div>
+      <div class="sep">+</div>
+      <div><div class="amount">$36</div></div>
+      <div style="width:1px;background:var(--border);align-self:stretch;margin:0 4px"></div>
+      <div class="note"><strong>Split into 2 payments</strong>Pay $36 today · Pay $36 after 7 days</div>
+    </div>
+    <div class="hero-ctas">
+      <button class="btn-gold" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Start for $36 →</button>
+      <button class="btn-outline" onclick="document.getElementById('course').scrollIntoView({behavior:'smooth'})">See What's Inside</button>
+    </div>
+    <div class="stats-row">
+      <div><div class="stat-n" id="c1">0</div><div class="stat-l">Members Enrolled</div></div>
+      <div><div class="stat-n" id="c2">0</div><div class="stat-l">Signals Delivered</div></div>
+      <div><div class="stat-n" id="c3">0%</div><div class="stat-l">Win Rate</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="course">
+  <div class="sec-tag">What You Get</div>
+  <div class="sec-title">EVERYTHING INSIDE<br>THE FX COURSE</div>
+  <div class="features">
+    <div class="feat"><div class="feat-icon">📡</div><h3>Daily Forex Signals</h3><p>Entry, stop loss & take profit levels delivered every day to your Telegram & Discord.</p></div>
+    <div class="feat"><div class="feat-icon">🎓</div><h3>Full Forex Course</h3><p>Structured lessons from zero to advanced — charts, strategy, risk management & more.</p></div>
+    <div class="feat"><div class="feat-icon">🧑‍💼</div><h3>1-on-1 Mentorship</h3><p>Personal coaching sessions to review your trades and answer all your questions.</p></div>
+    <div class="feat"><div class="feat-icon">📊</div><h3>Weekly Live Analysis</h3><p>Live market breakdown every week — what moved, why, and what to watch next.</p></div>
+    <div class="feat"><div class="feat-icon">💬</div><h3>Private Community</h3><p>Join serious traders on Discord sharing setups, wins, and strategies 24/7.</p></div>
+    <div class="feat"><div class="feat-icon">⚡</div><h3>Instant Access</h3><p>Get access to everything the moment your first payment clears. No waiting.</p></div>
+  </div>
+</section>
+
+<section class="price-section" id="pricing">
+  <div class="sec-tag">Pricing</div>
+  <div class="sec-title">ONE COURSE.<br>TWO EASY PAYMENTS.</div>
+  <div class="price-wrapper">
+    <div class="split-card">
+      <div class="split-card-header">
+        <div>
+          <div style="font-size:.7rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">FX Course by Technically Future</div>
+          <h2>FX COURSE</h2>
+        </div>
+        <div class="hot-tag">🔥 Best Value</div>
+      </div>
+      <div class="payments-visual">
+        <div class="payment-step">
+          <div class="step-left">
+            <div class="step-circle active">1</div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-content">
+            <div class="step-label">Pay Today</div>
+            <div class="step-amount">$75 <span>USD</span></div>
+            <div class="step-note">Pay now and get <strong>instant full access</strong> to the entire FX Course — signals, lessons, community and mentorship.</div>
+            <div class="step-tag">✓ Instant Access Unlocked</div>
+          </div>
+        </div>
+        <div class="payment-step">
+          <div class="step-left">
+            <div class="step-circle second">2</div>
+          </div>
+          <div class="step-content" style="padding-bottom:0">
+            <div class="step-label">Pay After 7 Days</div>
+            <div class="step-amount">$75 <span>USD</span></div>
+            <div class="step-note">7 days after your first payment, the second and <strong>final payment of $75</strong> is charged. That's it — no recurring fees.</div>
+            <div class="step-tag" style="background:rgba(245,166,35,.1);border-color:rgba(245,166,35,.25);color:var(--gold)">✓ No monthly charges</div>
+          </div>
+        </div>
+      </div>
+      <div style="border-top:1px solid var(--border);padding-top:24px">
+        <div style="padding:0 40px;font-size:.7rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">What's included</div>
+        <div class="included-list">
+          <div class="inc-item">Full FX Course curriculum (beginner to advanced)</div>
+          <div class="inc-item">Daily forex trading signals via Telegram & Discord</div>
+          <div class="inc-item">Weekly live market analysis sessions</div>
+          <div class="inc-item">1-on-1 mentorship & trade reviews</div>
+          <div class="inc-item">Private members community 24/7</div>
+          <div class="inc-item">Instant access on first payment</div>
+        </div>
+      </div>
+      <div class="split-total">
+        <div>
+          <div class="total-label">Total Cost</div>
+          <div style="font-size:.78rem;color:var(--muted);margin-top:4px">Split across 2 payments, 7 days apart</div>
+        </div>
+        <div class="total-amount">$150 <span>total</span></div>
+      </div>
+      <div class="split-cta">
+        <button class="btn-gold">Enroll Now — Pay $75 Today</button>
+        <div style="text-align:center;margin-top:10px;font-size:.75rem;color:var(--muted)">Secure payment · Instant access · 2nd payment after 7 days</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="results">
+  <div class="sec-tag">Student Results</div>
+  <div class="sec-title">REAL TRADERS,<br>REAL RESULTS</div>
+  <div class="testi-grid">
+    <div class="testi"><div class="stars">★★★★★</div><p class="testi-text">I joined with zero experience. The FX Course broke everything down step by step. Now I'm consistently profitable after just 2 months. Best $150 I ever spent.</p><div class="testi-author"><div class="avi">TM</div><div><div class="avi-name">Thabo M.</div><div class="avi-meta">Johannesburg · FX Course Member</div></div></div></div>
+    <div class="testi"><div class="stars">★★★★★</div><p class="testi-text">The split payment made it super easy to get started. Signals are accurate, the community keeps me accountable. Technically Future is the real deal.</p><div class="testi-author"><div class="avi">NK</div><div><div class="avi-name">Nomsa K.</div><div class="avi-meta">Pretoria · FX Course Member</div></div></div></div>
+    <div class="testi"><div class="stars">★★★★★</div><p class="testi-text">Tried 3 other signal groups. None of them teach you WHY. This course actually explains the market. My account is up 40% in 2 months. Worth every cent.</p><div class="testi-author"><div class="avi">LS</div><div><div class="avi-name">Lebo S.</div><div class="avi-meta">Durban · FX Course Member</div></div></div></div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="sec-tag" style="justify-content:center">Limited Spots</div>
+  <div class="sec-title">START YOUR<br>FX JOURNEY TODAY</div>
+  <p>Join the Technically Future FX Course. Pay just $75 today — the rest after 7 days. Full access from day one.</p>
+  <button class="btn-gold" style="font-size:1rem;padding:18px 52px" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Enroll for $75 →</button>
+  <div style="margin-top:16px;font-size:.78rem;color:var(--muted)">$75 today · $75 after 7 days · Total $150</div>
+</section>
+
+<footer>
+  <div>
+    <div class="foot-logo">Technically Future</div>
+    <div class="foot-note">© 2026 Technically Future · FX Course</div>
+    <div class="foot-note" style="margin-top:4px;font-size:.7rem">Trading involves risk. Results are not guaranteed.</div>
+  </div>
+  <div class="foot-links">
+    <a href="#">Home</a><a href="#course">Course</a><a href="#pricing">Pricing</a><a href="#results">Results</a><a href="#">WhatsApp Us</a>
+  </div>
+</footer>
+
+<script>
+const pairs=[
+  {p:'EUR/USD',v:'1.0842',c:'+0.12%',u:true},{p:'GBP/USD',v:'1.2674',c:'-0.08%',u:false},
+  {p:'USD/ZAR',v:'18.32',c:'+0.45%',u:true},{p:'XAU/USD',v:'2341.50',c:'+0.67%',u:true},
+  {p:'USD/JPY',v:'151.24',c:'-0.22%',u:false},{p:'AUD/USD',v:'0.6512',c:'+0.09%',u:true},
+  {p:'NZD/USD',v:'0.5987',c:'+0.14%',u:true},{p:'EUR/GBP',v:'0.8551',c:'-0.05%',u:false}
+];
+const t=document.getElementById('ticker');
+t.innerHTML=[...pairs,...pairs].map(p=>`<span class="tick"><span class="tick-pair">${p.p}</span><span class="tick-price">${p.v}</span><span class="${p.u?'tick-up':'tick-dn'}">${p.c}</span></span>`).join('');
+function count(el,target,suffix='',dur=2000){let s=0;const step=target/(dur/16);const r=setInterval(()=>{s=Math.min(s+step,target);el.textContent=Math.floor(s).toLocaleString()+suffix;if(s>=target)clearInterval(r)},16)}
+const ob=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){count(document.getElementById('c1'),847);count(document.getElementById('c2'),12400);count(document.getElementById('c3'),78,'%');ob.disconnect()}})},{threshold:.3});
+ob.observe(document.getElementById('c1'));
+</script>
+</body>
+</html>
